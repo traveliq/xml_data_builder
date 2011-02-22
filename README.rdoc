@@ -7,48 +7,48 @@ Symbols and Strings are equivalent.
 
 Usage is simple: You initialize XmlDataBuilder with ruby data structure and call #document:
 
->> puts XmlDataBuilder.new({}).document
-<?xml version="1.0" encoding="UTF-8"?>
+  >> puts XmlDataBuilder.new({}).document
+  <?xml version="1.0" encoding="UTF-8"?>
 
->> puts XmlDataBuilder.new({:data => 1}).document
-<?xml version="1.0" encoding="UTF-8"?>
-<data>1</data>
+  >> puts XmlDataBuilder.new({:data => 1}).document
+  <?xml version="1.0" encoding="UTF-8"?>
+  <data>1</data>
 
->> puts XmlDataBuilder.new({:outer => {:inner => 'data'}}).document
-<?xml version="1.0" encoding="UTF-8"?>
-<outer>
-  <inner>data</inner>
-</outer>
+  >> puts XmlDataBuilder.new({:outer => {:inner => 'data'}}).document
+  <?xml version="1.0" encoding="UTF-8"?>
+  <outer>
+    <inner>data</inner>
+  </outer>
 
->> puts XmlDataBuilder.new({:outer => {:inner => 'data'}}, :indent => 0).document
-<?xml version="1.0" encoding="UTF-8"?><outer><inner>data</inner></outer>
+  >> puts XmlDataBuilder.new({:outer => {:inner => 'data'}}, :indent => 0).document
+  <?xml version="1.0" encoding="UTF-8"?><outer><inner>data</inner></outer>
 
->> puts XmlDataBuilder.new({:numbers => [1, 2, 3]}).document
-<?xml version="1.0" encoding="UTF-8"?>
-<numbers>
-  <number>1</number>
-  <number>2</number>
-  <number>3</number>
-</numbers>
+  >> puts XmlDataBuilder.new({:numbers => [1, 2, 3]}).document
+  <?xml version="1.0" encoding="UTF-8"?>
+  <numbers>
+    <number>1</number>
+    <number>2</number>
+    <number>3</number>
+  </numbers>
 
->> puts XmlDataBuilder.new({:numbers => [{:value => 1, :type => 'odd'}, {:value => 2, :type => 'even'}]}).document
-<?xml version="1.0" encoding="UTF-8"?>
-<numbers>
-  <number>
-    <type>odd</type>
-    <value>1</value>
-  </number>
-  <number>
-    <type>even</type>
-    <value>2</value>
-  </number>
-</numbers>
+  >> puts XmlDataBuilder.new({:numbers => [{:value => 1, :type => 'odd'}, {:value => 2, :type => 'even'}]}).document
+  <?xml version="1.0" encoding="UTF-8"?>
+  <numbers>
+    <number>
+      <type>odd</type>
+      <value>1</value>
+    </number>
+    <number>
+      <type>even</type>
+      <value>2</value>
+    </number>
+  </numbers>
 
->> puts XmlDataBuilder.new({:verbatim => XmlDataBuilder::CDATA.new('eßcape thïs!')}).document
-<?xml version="1.0" encoding="UTF-8"?>
-<verbatim>
-  <![CDATA[eßcape thïs!]]>
-</verbatim>
+  >> puts XmlDataBuilder.new({:verbatim => XmlDataBuilder::CDATA.new('eßcape thïs!')}).document
+  <?xml version="1.0" encoding="UTF-8"?>
+  <verbatim>
+    <![CDATA[eßcape thïs!]]>
+  </verbatim>
 
 == Caveat
 

@@ -1,19 +1,73 @@
 = xml_data_builder
 
-Description goes here.
+XmlDataBuilder renders Ruby data structures as XML using Builder.
+It is designed to use the lowest common denominator between JSON and XML.
+When using arrays as input XmlDataBuilder uses the key of the outer hash as a grouping tag and wraps the values in singularized tags.
+Symbols and Strings are equivalent.
 
-== Contributing to xml_data_builder
- 
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-* Fork the project
-* Start a feature/bugfix branch
-* Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+Usage is simple: You initialize XmlDataBuilder with ruby data structure and call #document:
+
+>> puts XmlDataBuilder.new({}).document
+<?xml version="1.0" encoding="UTF-8"?>
+
+>> puts XmlDataBuilder.new({:data => 1}).document
+<?xml version="1.0" encoding="UTF-8"?>
+<data>1</data>
+
+>> puts XmlDataBuilder.new({:outer => {:inner => 'data'}}).document
+<?xml version="1.0" encoding="UTF-8"?>
+<outer>
+  <inner>data</inner>
+</outer>
+
+>> puts XmlDataBuilder.new({:outer => {:inner => 'data'}}, :indent => 0).document
+<?xml version="1.0" encoding="UTF-8"?><outer><inner>data</inner></outer>
+
+>> puts XmlDataBuilder.new({:numbers => [1, 2, 3]}).document
+<?xml version="1.0" encoding="UTF-8"?>
+<numbers>
+  <number>1</number>
+  <number>2</number>
+  <number>3</number>
+</numbers>
+
+>> puts XmlDataBuilder.new({:numbers => [{:value => 1, :type => 'odd'}, {:value => 2, :type => 'even'}]}).document
+<?xml version="1.0" encoding="UTF-8"?>
+<numbers>
+  <number>
+    <type>odd</type>
+    <value>1</value>
+  </number>
+  <number>
+    <type>even</type>
+    <value>2</value>
+  </number>
+</numbers>
+
+>> puts XmlDataBuilder.new({:verbatim => XmlDataBuilder::CDATA.new('eßcape thïs!')}).document
+<?xml version="1.0" encoding="UTF-8"?>
+<verbatim>
+  <![CDATA[eßcape thïs!]]>
+</verbatim>
+
+== Caveat
+
+The root element has to be a Hash and at least every second level has to be a Hash.
+XML attributes are not supported.
+
+== Installation
+
+    (sudo) gem install xml_data_builder
+    
+== Authors
+
+Dr. Florian Odronitz (odo@mac.com)
+
+== Contact
+
+For questions, contact the authors or developer@traveliq.net
 
 == Copyright
 
-Copyright (c) 2011 odo. See LICENSE.txt for
+Copyright (c) 2011 www.travel-iq.com. See LICENSE.txt for
 further details.
-
